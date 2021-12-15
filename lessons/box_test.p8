@@ -28,7 +28,7 @@ function _update()
  end
  if btn(3) then
   rayy+=1
- end 
+ end
 end
 
 function _draw()

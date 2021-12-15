@@ -34,9 +34,25 @@ function startgame()
  pad_h=3
  pad_c=7
 
+ brick_w=10
+ brick_h=4
+ buildbricks()
+
  lives=3
  points=0
  serveball()
+end
+
+function buildbricks()
+ local i
+ brick_x={}
+ brick_y={}
+ brick_v={}
+ for i=1,10 do
+  add(brick_x, 5+(i-1)*(brick_w+2))
+  add(brick_y, 20)
+  add(brick_v, true)
+ end
 end
 
 function serveball()
@@ -76,6 +92,7 @@ function update_game()
   pad_dx=pad_dx/1.3
  end
  pad_x+=pad_dx
+ pad_x=mid(0,pad_x,127-pad_w)
 
  nextx=ball_x+ball_dx
  nexty=ball_y+ball_dy
@@ -103,6 +120,21 @@ function update_game()
   points+=1
  end
 
+ for i=1,#brick_x do
+  -- check if ball hit brick
+  if brick_v[i] and ball_box(nextx,nexty,brick_x[i],brick_y[i],brick_w,brick_h) then
+   -- deal with collision
+   if deflx_ball_box(ball_x,ball_y,ball_dx,ball_dy,brick_x[i],brick_y[i],brick_w,brick_h) then
+    ball_dx = -ball_dx
+   else
+    ball_dy = -ball_dy
+   end
+   sfx(3)
+   brick_v[i]=false
+   points+=10
+  end
+ end
+
  ball_x=nextx
  ball_y=nexty
 
@@ -116,7 +148,6 @@ function update_game()
   end
  end
 end
-
 
 function _draw()
  if mode=="game" then
@@ -142,9 +173,17 @@ function draw_gameover()
 end
 
 function draw_game()
+ local i
  cls(1)
  circfill(ball_x,ball_y,ball_r, 10)
  rectfill(pad_x,pad_y,pad_x+pad_w,pad_y+pad_h,pad_c)
+
+ --draw bricks
+ for i=1,#brick_x do
+  if brick_v[i] then
+   rectfill(brick_x[i],brick_y[i],brick_x[i]+brick_w,brick_y[i]+brick_h,14)
+  end
+ end
 
  rectfill(0,0,128,6,0)
  print("lives:"..lives,1,1,7)
@@ -239,3 +278,4 @@ __sfx__
 000100001836018360183501833018320183100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 000100002436024360243502433024320243100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 000500001d4501a450184501645013450114500f4500c4500a4500745002450014500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+000100003236032360323503233032320323100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000

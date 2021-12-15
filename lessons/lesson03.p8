@@ -20,7 +20,7 @@ function _update()
  poo=poo+poospeed
  pee=pee+peespeed
  col=col+1
- 
+
  --this is where we check
  --if the heart hits the edges
  if poo>122 then
@@ -29,14 +29,14 @@ function _update()
  if poo<0 then
   poospeed=1
  end
- 
+
  if pee>122 then
   peespeed=-1
  end
  if pee<0 then
   peespeed=1
  end
- 
+
 end
 
 function _draw()

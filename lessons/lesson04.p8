@@ -18,7 +18,7 @@ function _update()
  frame=frame+1
  ball_x=ball_x+ball_dx
  ball_y=ball_y+ball_dy
- 
+
  if ball_x > 127 or ball_x < 0 then
   ball_dx = -ball_dx
   sfx(0)

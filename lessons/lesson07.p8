@@ -46,7 +46,7 @@ function _update()
   ball_dy = -ball_dy
   sfx(0)
  end
- 
+
  pad_c=7
  -- check if ball hit pad
  if ball_box(pad_x,pad_y,pad_w,pad_h) then
